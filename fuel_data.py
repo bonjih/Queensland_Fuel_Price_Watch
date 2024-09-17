@@ -1,9 +1,6 @@
 import requests
 from concurrent.futures import ThreadPoolExecutor
-import pandas as pd
-from transforms import results_to_dataframe  # Import the function for DataFrame transformation
 
-# Global variables from configuration
 import global_conf_variables
 
 params = global_conf_variables.ParamsDict()
@@ -38,11 +35,11 @@ class FuelDataAPI:
     def make_request(self, key):
         """Performs the request for the given URL key."""
         if key in ["site_details", "sites_prices"]:
-            params = self.param_2
+            param = self.param_2
         else:
-            params = self.param_1
+            param = self.param_1
         url = self.urls[key]
-        response = requests.get(url, headers=self.headers, params=params)
+        response = requests.get(url, headers=self.headers, params=param)
         return key, response.json()
 
     def fetch_all_data(self):
