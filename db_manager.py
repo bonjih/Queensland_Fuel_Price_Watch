@@ -12,14 +12,17 @@ class SQL:
         self.engine = create_engine(f"mysql+pymysql://{user}:{pwd}@{host}/{db}?charset={'latin1'}")
 
     def insert_dataframe(self, df, table_name):
-        """Insert a DataFrame into the specified table. Append for 'sites_prices' and replace for others."""
+        """Insert a DataFrame into the specified table. Append for 'sites_prices' and others."""
         try:
-            # Add 'updated' column with the current datetime
-            df['updated'] = datetime.now()
+            if table_name != 'qld_fuel_prices_main':
+                # Add 'updated' column with the current datetime for all tables except 'qld_fuel_prices_main'
+                df['updated'] = datetime.now()
 
-            # Special handling for 'sites_prices' table
+            # Special handling for 'sites_prices' table and others
             if table_name == 'sites_prices':
                 if_exists = 'append'  # Append for sites_prices table
+            elif table_name == 'qld_fuel_prices_main':
+                if_exists = 'append'  # Append for qld_fuel_prices_main
             else:
                 if_exists = 'replace'  # Replace for other tables
 

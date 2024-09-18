@@ -1,3 +1,4 @@
+from consolidated_fuel_data import consolidate_fuel_tables
 from db_manager import SQL
 from fuel_data import FuelDataAPI
 import global_conf_variables
@@ -18,6 +19,15 @@ if __name__ == "__main__":
 
     frames = results_to_dataframe(data)
 
+    # TODO push View logic to SQL
+    # Consolidate data into a main table aka a View
+    main_table_update = consolidate_fuel_tables(frames)
+
+    # Insert 'View' into the 'qld_fuel_prices_main' table
+    if not main_table_update.empty:
+        sql.insert_dataframe(main_table_update, 'qld_fuel_prices_main')
+
+    # Update the rest of the tables
     for key, df in frames.items():
         if not df.empty:
             sql.insert_dataframe(df, key)
