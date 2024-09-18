@@ -1,5 +1,8 @@
 from datetime import datetime
 from sqlalchemy import create_engine
+from update_logging import UpdateLogger
+
+logger = UpdateLogger(log_dir="logs", base_filename="update_errors", max_size_mb=5, backup_count=5)
 
 
 class SQL:
@@ -27,6 +30,9 @@ class SQL:
                 if_exists = 'replace'  # Replace for other tables
 
             df.to_sql(table_name, con=self.engine, if_exists=if_exists, index=False)
-            print(f"Data inserted into table '{table_name}' with {if_exists} mode.")
+            message = f"Data inserted into table '{table_name}' with {if_exists} mode."
+            logger.log_message(message)
+
         except Exception as e:
-            print(f"Failed to insert data into table '{table_name}': {str(e)}")
+            error_message = f"Failed to insert data into table '{table_name}': {str(e)}"
+            logger.log_error(error_message)
