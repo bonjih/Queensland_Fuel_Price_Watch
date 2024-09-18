@@ -26,8 +26,8 @@ def consolidate_fuel_tables(frames):
     # Merge with fuel types on 'FuelId'
     merged_df = pd.merge(merged_df, df_fuel_type, on='FuelId', how='inner').rename(columns={'Name': 'FuelType'})
 
-    merged_df = merged_df.drop(['B', 'Abbrev', 'G1', 'G2', 'G3', 'GeoRegionId', 'GeoRegionLevel', 'GeoRegionParentId',
-                                'TransactionDateUtc'], axis=1, errors='ignore')
+    merged_df = merged_df.drop(['B', 'Abbrev', 'G1', 'G2', 'G3', 'GeoRegionId', 'GeoRegionLevel', 'GeoRegionParentId'
+                                ], axis=1, errors='ignore')
 
     column_renames = {
         'S': 'SiteId', 'A': 'Address', 'N': 'Name', 'P': 'Postcode',
