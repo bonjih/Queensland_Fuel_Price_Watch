@@ -39,7 +39,7 @@ class UpdateLogger:
 
     def _get_log_file_path(self):
         """Get the path for the log file."""
-        return os.path.join(self.log_dir, f"{self.base_filename}.log")
+        return os.path.join(self.log_dir, f"{self.base_filename}.txt")
 
     def log_message(self, message):
         """Log a general message."""
