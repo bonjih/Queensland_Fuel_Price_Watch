@@ -29,7 +29,7 @@ class MailSender:
             self.logger.log_error(f"Error encoding file {file_path}: {e}")
             return None
 
-    def find_latest_txt_file(self, directory):
+    def find_latest_file(self, directory):
         """
         Find the latest .txt file in the provided directory.
         """
@@ -50,7 +50,7 @@ class MailSender:
         """
         to_email = self.params.get_value('to_email')
         logs_directory = self.params.get_value('log_files')
-        latest_file_path = self.find_latest_txt_file(logs_directory)
+        latest_file_path = self.find_latest_file(logs_directory)
 
         if latest_file_path:
             encoded_file = self.encode_file_to_base64(latest_file_path)
