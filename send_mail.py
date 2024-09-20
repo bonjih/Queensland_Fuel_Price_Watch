@@ -79,7 +79,3 @@ class MailSender:
         else:
             self.logger.log_message("No .txt files found in the logs directory.")
 
-
-if __name__ == "__main__":
-    mail_sender = MailSender()
-    mail_sender.send_email_with_attachment()

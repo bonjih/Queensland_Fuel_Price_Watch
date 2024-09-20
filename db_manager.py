@@ -1,5 +1,7 @@
 from datetime import datetime
 from sqlalchemy import create_engine
+
+from send_mail import MailSender
 from update_logging import UpdateLogger
 
 logger = UpdateLogger(log_dir="logs", base_filename="update_errors", max_size_mb=5, backup_count=5)
@@ -36,3 +38,6 @@ class SQL:
         except Exception as e:
             error_message = f"Failed to insert data into table '{table_name}': {str(e)}"
             logger.log_error(error_message)
+            # send mail on exception
+            mail_sender = MailSender()
+            mail_sender.send_email_with_attachment()
