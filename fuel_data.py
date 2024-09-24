@@ -27,14 +27,14 @@ class FuelDataAPI:
             "geographic_regions": geographic_regions,
             "fuel_type": fuel_type,
             "site_details": site_details,
-            "sites_prices": sites_prices
+            "site_prices": sites_prices
         }
         self.param_1 = {"countryId": country_id}
         self.param_2 = {"countryId": country_id, "geoRegionLevel": region_level, "geoRegionId": region_id}
 
     def make_request(self, key):
         """Performs the request for the given URL key."""
-        if key in ["site_details", "sites_prices"]:
+        if key in ["site_details", "site_prices"]:
             param = self.param_2
         else:
             param = self.param_1
