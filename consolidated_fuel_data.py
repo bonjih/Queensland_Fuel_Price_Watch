@@ -1,9 +1,10 @@
+# consolidated_fuel_data.py
+
 from datetime import datetime
 import pandas as pd
 
 
 def consolidate_fuel_tables(frames):
-
     df_site_details = frames.get('site_details', pd.DataFrame())
     df_site_prices = frames.get('site_prices', pd.DataFrame())
 
@@ -13,7 +14,7 @@ def consolidate_fuel_tables(frames):
 
     # Merge site details with site prices on 'S' (SiteID) and 'SiteId'
     merged_df = pd.merge(df_site_details, df_site_prices, left_on='S', right_on='SiteId', how='inner')
-    print(merged_df.columns)
+
     columns_to_drop = ['G4', 'G5', 'MO', 'MC', 'TO', 'TC', 'WO', 'WC', 'THO', 'THC', 'FO',
                        'FC', 'SO', 'SC', 'SUO', 'SUC', 'CollectionMethod', 'SiteId', 'M', 'GPI']
     merged_df = merged_df.drop(columns=columns_to_drop, errors='ignore')
@@ -38,19 +39,9 @@ def consolidate_fuel_tables(frames):
     merged_df = merged_df.rename(columns=column_renames)
 
     # make a unique id
-    merged_df['id'] = merged_df['SiteId'].astype(str) + merged_df['FuelId'].astype(str) + merged_df['BrandId'].astype(str)
+    merged_df['id'] = merged_df['SiteId'].astype(str) + merged_df['FuelId'].astype(str) + merged_df['BrandId'].astype(
+        str)
 
     merged_df['Updated'] = datetime.now()
-
-    # add USD / AUD rate to table
-    # Extract start and end dates from the 'TransactionDateUtc' column
-    merged_df['TransactionDateUtc'] = pd.to_datetime(merged_df['TransactionDateUtc'])
-    start_date = merged_df['TransactionDateUtc'].min().strftime('%YYYY-%mm-%dd')
-    print(start_date)
-
-    # end_date = merged_df['TransactionDateUtc'].max().strftime('%YYYY-%mm-%dd')
-    # print(start_date, end_date)
-
-
 
     return merged_df
