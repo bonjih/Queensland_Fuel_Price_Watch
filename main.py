@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from consolidated_fuel_data import consolidate_fuel_tables
-from currency_exchange import fetch_currency_data
+from api_requests import fetch_currency_data
 from db_manager import SQL
 from fuel_data import FuelDataAPI
 import global_conf_variables
@@ -23,6 +23,7 @@ def update_fuel_prices(sql, api):
 
     # Consolidate data into the main table and update the 'qld_fuel_prices_main'
     main_table_update = consolidate_fuel_tables(frames)
+
     if not main_table_update.empty:
         sql.insert(main_table_update, 'qld_fuel_prices_main')
 
@@ -58,4 +59,4 @@ if __name__ == "__main__":
     update_fuel_prices(sql, fuel_api)
 
     # Update exchange rate
-    update_exchange_rate(sql, token)
+    #update_exchange_rate(sql, token)

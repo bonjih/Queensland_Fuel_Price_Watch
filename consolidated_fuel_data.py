@@ -7,7 +7,6 @@ import pandas as pd
 def consolidate_fuel_tables(frames):
     df_site_details = frames.get('site_details', pd.DataFrame())
     df_site_prices = frames.get('site_prices', pd.DataFrame())
-
     df_brands = frames.get('brands', pd.DataFrame()).rename(columns={'Name': 'Brand'})
     df_fuel_type = frames.get('fuel_type', pd.DataFrame())
     df_geographic_regions = frames.get('geographic_regions', pd.DataFrame())
@@ -37,10 +36,6 @@ def consolidate_fuel_tables(frames):
         'Price': 'FuelPrice'
     }
     merged_df = merged_df.rename(columns=column_renames)
-
-    # make a unique id
-    merged_df['id'] = merged_df['SiteId'].astype(str) + merged_df['FuelId'].astype(str) + merged_df['BrandId'].astype(
-        str)
 
     merged_df['Updated'] = datetime.now()
 

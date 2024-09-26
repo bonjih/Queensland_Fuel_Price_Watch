@@ -9,7 +9,7 @@ brands = params.get_value('brands')
 geographic_regions = params.get_value('geographic_regions')
 fuel_type = params.get_value('fuel_type')
 site_details = params.get_value('site_details')
-sites_prices = params.get_value('sites_prices')
+site_prices = params.get_value('site_prices')
 country_id = params.get_value('country_id')
 region_level = params.get_value('region_level')
 region_id = params.get_value('region_id')
@@ -27,7 +27,7 @@ class FuelDataAPI:
             "geographic_regions": geographic_regions,
             "fuel_type": fuel_type,
             "site_details": site_details,
-            "site_prices": sites_prices
+            "site_prices": site_prices
         }
         self.param_1 = {"countryId": country_id}
         self.param_2 = {"countryId": country_id, "geoRegionLevel": region_level, "geoRegionId": region_id}
