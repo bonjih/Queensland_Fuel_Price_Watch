@@ -45,7 +45,6 @@ def update_exchange_rate(s, t):
         ex_value = fetch_currency_data(t, start_date, today_date)
         most_recent_date = max(ex_value['response'].keys())
         aud_value = ex_value['response'][most_recent_date]['AUD']
-
         # Calculate USD from AUD
         usd_value = 1 / aud_value if aud_value != 0 else None
         s.insert_exchange_rate(start_date, aud_value, usd_value)
@@ -59,4 +58,4 @@ if __name__ == "__main__":
     update_fuel_prices(sql, fuel_api)
 
     # Update exchange rate
-    #update_exchange_rate(sql, token)
+    update_exchange_rate(sql, token)

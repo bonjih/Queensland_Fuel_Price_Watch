@@ -42,11 +42,12 @@ class SQL:
     def insert_exchange_rate(self, date, aud, usd):
         """Insert exchange rate data into the exchange_rates table."""
         try:
-            # Create a DataFrame for the exchange rate values
+            # DataFrame for the exchange rate values
             df = pd.DataFrame({
                 'date': [date],
                 'aud': [aud],
-                'usd': [usd]
+                'usd': [usd],
+                'updated': [datetime.now()]
             })
 
             # Insert the exchange rate DataFrame into the 'exchange_rates' table
