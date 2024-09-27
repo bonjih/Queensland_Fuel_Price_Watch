@@ -43,3 +43,30 @@ class SQL:
             error_message = f"Error checking value in table '{table_name}': {str(e)}"
             logger.log_error(error_message)
             return False
+
+    def update_main_with_exchange_rate(self):
+        """Update qld_fuel_prices_main with exchange rates where AUDtoUSD is NULL."""
+        check_nulls_query = text("""
+            SELECT COUNT(*) FROM qld_fuel_prices_main WHERE AUDtoUSD IS NULL;
+        """)
+
+        try:
+            with self.engine.connect() as connection:
+                null_count = connection.execute(check_nulls_query).scalar()
+                if null_count > 0:
+                    update_query = text("""
+                        UPDATE qld_fuel_prices_main q
+                        JOIN exchange_rates e
+                        ON DATE(q.TransactionDateUtc) = e.date
+                        SET q.AUDtoUSD = e.usd
+                        WHERE q.AUDtoUSD IS NULL;
+                    """)
+                    result = connection.execute(update_query)
+                    updated_count = result.rowcount
+                    logger.log_message(
+                        f"qld_fuel_prices_main updated with {updated_count} rows where AUDtoUSD was NULL.")
+                else:
+                    logger.log_message("No NULL values found in AUDtoUSD; skipping update.")
+        except Exception as e:
+            logger.log_error(f"Failed to update qld_fuel_prices_main with exchange rates: {str(e)}")
+
